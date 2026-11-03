@@ -19,4 +19,4 @@ The repository visibility is public. A license has not yet been selected; do not
 
 ## Validation
 
-Run python scripts/validate_examples.py with jsonschema 4.x and PyYAML 6.x installed. The GitHub Actions template is docs/ci/validate.yml.example. It is not active: the current GitHub OAuth credential lacks workflow scope. Once that permission is available, place the template at .github/workflows/validate.yml.
+Run python scripts/validate_examples.py with jsonschema 4.x and PyYAML 6.x installed. GitHub Actions runs the same validation on pushes and pull requests via .github/workflows/validate.yml.
