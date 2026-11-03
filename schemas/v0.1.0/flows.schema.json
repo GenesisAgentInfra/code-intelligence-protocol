@@ -1,0 +1,85 @@
+{
+  "$defs": {
+    "FlowDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Acceptance",
+          "type": "array"
+        },
+        "entries": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Entries",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "status": {
+          "$ref": "#/$defs/FlowStatus"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "status",
+        "entries"
+      ],
+      "title": "FlowDefinition",
+      "type": "object"
+    },
+    "FlowStatus": {
+      "enum": [
+        "draft",
+        "confirmed"
+      ],
+      "title": "FlowStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "flows": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/FlowDefinition"
+      },
+      "title": "Flows",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    }
+  },
+  "title": "FlowsDocument",
+  "type": "object"
+}
