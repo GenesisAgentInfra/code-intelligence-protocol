@@ -38,6 +38,30 @@ def main():
         if report["analysis_status"] == "complete":
             assert all(section["status"] == "analyzed" for section in report["section_status"].values())
             assert not any(item["affects_completeness"] for item in report["limitations"])
+    comparison_schema = json.loads((ROOT / "schemas/v0.2.0/analysis-response.schema.json").read_text())
+    Draft202012Validator.check_schema(comparison_schema)
+    comparison_reports = sorted((ROOT / "examples/v0.2.0").glob("*.json"))
+    assert comparison_reports
+    for path in comparison_reports:
+        report = json.loads(path.read_text())
+        Draft202012Validator(comparison_schema).validate(report)
+        assert report["scope"]["execution_mode"] == "mock"
+        refs = {item["evidence_id"]: item for item in report["evidence"]}
+        findings = {item["finding_id"] for item in report["findings"]}
+        changes = report["behavior_review"]["changes"]
+        assert len({change["change_id"] for change in changes}) == len(changes)
+        for change in changes:
+            assert set(change["finding_ids"]) <= findings
+            for label, side in (("before", "base"), ("after", "head")):
+                ids = change[label + "_evidence_ids"]
+                assert (change[label] is not None) == bool(ids)
+                assert all(refs[ident]["kind"] == "code" and refs[ident]["side"] == side for ident in ids)
+            assert set(change["evidence_ids"]) <= refs.keys()
+            assert any(refs[ident]["kind"] == "code" for ident in change["evidence_ids"])
+            assert change["before"] is not None or change["after"] is not None
+            assert (change["before"] is not None and change["after"] is not None) or change["limitations"]
+        if report["analysis_status"] == "complete":
+            assert report["behavior_review"]["coverage"]["status"] == "analyzed"
     flows = yaml.safe_load((ROOT / "examples/v0.1.0/flows.yaml").read_text())
     validators["flows"].validate(flows)
     assert len({flow["id"] for flow in flows["flows"]}) == len(flows["flows"])

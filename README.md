@@ -5,9 +5,12 @@ Public data formats for the standalone Genesis Code Intelligence product. The so
 ## Contents
 
 - `schemas/v0.1.0/analysis-response.schema.json`: stable, user-readable Markdown/JSON report contract.
+- `schemas/v0.2.0/analysis-response.schema.json`: opt-in report with source-backed business behavior comparisons; all v0.1.0 report fields remain.
 - `schemas/v0.1.0/flows.schema.json`: machine-readable `.genesis/flows.yaml` contract.
 - `specs/flows-yaml.md`: lifecycle and field semantics.
 - `examples/v0.1.0/`: small, synthetic examples with no customer source.
+- `examples/v0.2.0/behavior-comparison.json`: synthetic notification/wait comparison, including an explicitly incomplete scope.
+- `specs/behavior-comparison.md`: scenario, side-specific evidence, coverage and version handling.
 
 The four reports demonstrate a complete result, unresolved dynamic call, missing intent/tests, and stale flow entry. They are protocol examples, not evidence of analyzer accuracy.
 
