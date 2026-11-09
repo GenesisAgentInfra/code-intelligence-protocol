@@ -62,6 +62,30 @@ def main():
             assert (change["before"] is not None and change["after"] is not None) or change["limitations"]
         if report["analysis_status"] == "complete":
             assert report["behavior_review"]["coverage"]["status"] == "analyzed"
+    path_schema = json.loads((ROOT / "schemas/v0.3.0/analysis-response.schema.json").read_text())
+    Draft202012Validator.check_schema(path_schema)
+    path_reports = sorted((ROOT / "examples/v0.3.0").glob("*.json"))
+    assert path_reports
+    for path in path_reports:
+        report = json.loads(path.read_text())
+        Draft202012Validator(path_schema).validate(report)
+        assert report["scope"]["execution_mode"] == "mock"
+        refs = {ref["evidence_id"]: ref for ref in report["evidence"]}
+        paths = report["behavior_review"]["paths"]
+        assert len({item["path_id"] for item in paths}) == len(paths)
+        for item in paths:
+            steps = {step["step_id"]: step for step in item["steps"]}
+            assert len(steps) == len(item["steps"])
+            assert item["entry_step_id"] in steps or (item["entry_step_id"] is None and item["limitations"])
+            for node in [*item["steps"], *item["links"]]:
+                assert all(refs[ident]["side"] == item["side"] and refs[ident]["kind"] == "code" for ident in node["evidence_ids"])
+            for step in item["steps"]:
+                if step["symbol"] is not None:
+                    assert "#" in step["symbol"]
+                    assert any(refs[ident]["path"] == step["symbol"].split("#", 1)[0] for ident in step["evidence_ids"])
+            for link in item["links"]:
+                assert link["source"] in steps and link["target"] in steps
+                assert link["support"] != "unknown" or link["limitations"]
     flows = yaml.safe_load((ROOT / "examples/v0.1.0/flows.yaml").read_text())
     validators["flows"].validate(flows)
     assert len({flow["id"] for flow in flows["flows"]}) == len(flows["flows"])

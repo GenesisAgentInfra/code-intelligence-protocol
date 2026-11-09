@@ -1,0 +1,1184 @@
+{
+  "$defs": {
+    "AnalysisScope": {
+      "additionalProperties": false,
+      "properties": {
+        "analyzed_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Analyzed Files",
+          "type": "array"
+        },
+        "base_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Base Revision"
+        },
+        "execution_mode": {
+          "enum": [
+            "mock",
+            "offline",
+            "semantic"
+          ],
+          "title": "Execution Mode",
+          "type": "string"
+        },
+        "head_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Head Revision"
+        },
+        "omitted_inputs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Omitted Inputs",
+          "type": "array"
+        },
+        "parser_limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Parser Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "analyzed_files",
+        "execution_mode"
+      ],
+      "title": "AnalysisScope",
+      "type": "object"
+    },
+    "AnalysisStatus": {
+      "enum": [
+        "complete",
+        "partial",
+        "failed"
+      ],
+      "title": "AnalysisStatus",
+      "type": "string"
+    },
+    "BehaviorChange": {
+      "additionalProperties": false,
+      "description": "Source-backed semantic comparison, never an inferred user requirement.",
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After"
+        },
+        "after_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 16,
+          "title": "After Evidence Ids",
+          "type": "array"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before"
+        },
+        "before_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 16,
+          "title": "Before Evidence Ids",
+          "type": "array"
+        },
+        "change_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Change Id",
+          "type": "string"
+        },
+        "condition": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "finding_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 24,
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "impact": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Impact",
+          "type": "string"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "preserved_behavior": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preserved Behavior"
+        },
+        "scenario": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Scenario",
+          "type": "string"
+        }
+      },
+      "required": [
+        "change_id",
+        "scenario",
+        "condition",
+        "explanation",
+        "impact",
+        "evidence_ids"
+      ],
+      "title": "BehaviorChange",
+      "type": "object"
+    },
+    "CapabilityStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "analyzed_scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analyzed Scope"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "status": {
+          "$ref": "#/$defs/SectionStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "CapabilityStatus",
+      "type": "object"
+    },
+    "EstimateParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "unknown_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unknown Reason"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "unit"
+      ],
+      "title": "EstimateParameter",
+      "type": "object"
+    },
+    "EvidenceBasis": {
+      "enum": [
+        "code_fact",
+        "semantic_inference",
+        "conditional_estimate",
+        "user_intent",
+        "agent_claim"
+      ],
+      "title": "EvidenceBasis",
+      "type": "string"
+    },
+    "EvidenceKind": {
+      "enum": [
+        "code",
+        "intent",
+        "flow",
+        "test",
+        "config"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "EvidenceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "minLength": 1,
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceKind"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/ReferenceRange"
+        },
+        "side": {
+          "$ref": "#/$defs/EvidenceSide"
+        },
+        "snapshot_id": {
+          "minLength": 1,
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "snippet_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Snippet Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "snapshot_id",
+        "side",
+        "path",
+        "range",
+        "snippet_digest",
+        "kind"
+      ],
+      "title": "EvidenceRef",
+      "type": "object"
+    },
+    "EvidenceSide": {
+      "enum": [
+        "base",
+        "head"
+      ],
+      "title": "EvidenceSide",
+      "type": "string"
+    },
+    "ExecutionLink": {
+      "additionalProperties": false,
+      "properties": {
+        "condition": {
+          "anyOf": [
+            {
+              "maxLength": 500,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Condition"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "relation": {
+          "enum": [
+            "call",
+            "await",
+            "branch",
+            "return",
+            "raise",
+            "human_wait"
+          ],
+          "title": "Relation",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "support": {
+          "default": "semantic_inference",
+          "enum": [
+            "semantic_inference",
+            "unknown"
+          ],
+          "title": "Support",
+          "type": "string"
+        },
+        "target": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "relation",
+        "evidence_ids"
+      ],
+      "title": "ExecutionLink",
+      "type": "object"
+    },
+    "ExecutionPath": {
+      "additionalProperties": false,
+      "description": "Semantic explanation of one revision, distinct from the static call graph.",
+      "properties": {
+        "condition": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        },
+        "entry_step_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entry Step Id"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "links": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ExecutionLink"
+          },
+          "maxItems": 16,
+          "title": "Links",
+          "type": "array"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "maxLength": 500,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outcome"
+        },
+        "path_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Path Id",
+          "type": "string"
+        },
+        "scenario": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Scenario",
+          "type": "string"
+        },
+        "side": {
+          "$ref": "#/$defs/EvidenceSide"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/ExecutionStep"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path_id",
+        "side",
+        "scenario",
+        "condition",
+        "steps"
+      ],
+      "title": "ExecutionPath",
+      "type": "object"
+    },
+    "ExecutionStep": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "entrypoint",
+            "function",
+            "model",
+            "tool",
+            "human",
+            "external",
+            "return",
+            "raise"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "step_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "maxLength": 500,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        }
+      },
+      "required": [
+        "step_id",
+        "kind",
+        "description",
+        "evidence_ids"
+      ],
+      "title": "ExecutionStep",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "items": {
+            "$ref": "#/$defs/EvidenceBasis"
+          },
+          "minItems": 1,
+          "title": "Basis",
+          "type": "array"
+        },
+        "category": {
+          "$ref": "#/$defs/FindingCategory"
+        },
+        "condition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Condition"
+        },
+        "deviation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntentDeviation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "estimate_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Estimate Ids",
+          "type": "array"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "finding_id": {
+          "minLength": 1,
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "flow_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Flow Ids",
+          "type": "array"
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gap"
+        },
+        "recommendation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recommendation"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "category",
+        "statement",
+        "severity",
+        "basis",
+        "evidence_ids"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "FindingCategory": {
+      "enum": [
+        "behavior_intent",
+        "flow_impact",
+        "cost_risk",
+        "acceptance_tests",
+        "verification"
+      ],
+      "title": "FindingCategory",
+      "type": "string"
+    },
+    "ImpactEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount"
+        },
+        "assumptions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "estimate_id": {
+          "title": "Estimate Id",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "flow_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Flow Ids",
+          "type": "array"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formula"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EstimateParameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "price_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Date"
+        },
+        "price_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Source"
+        },
+        "structural_signals": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Structural Signals",
+          "type": "array"
+        },
+        "unknowns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unknowns",
+          "type": "array"
+        }
+      },
+      "required": [
+        "estimate_id",
+        "evidence_ids"
+      ],
+      "title": "ImpactEstimate",
+      "type": "object"
+    },
+    "IntentDeviation": {
+      "enum": [
+        "missing_in_code",
+        "unrequested_change",
+        "unverified_claim"
+      ],
+      "title": "IntentDeviation",
+      "type": "string"
+    },
+    "Limitation": {
+      "additionalProperties": false,
+      "properties": {
+        "affects_completeness": {
+          "default": false,
+          "title": "Affects Completeness",
+          "type": "boolean"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Limitation",
+      "type": "object"
+    },
+    "PathBehaviorReview": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BehaviorChange"
+          },
+          "maxItems": 12,
+          "title": "Changes",
+          "type": "array"
+        },
+        "coverage": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "paths": {
+          "items": {
+            "$ref": "#/$defs/ExecutionPath"
+          },
+          "maxItems": 6,
+          "title": "Paths",
+          "type": "array"
+        },
+        "version": {
+          "const": "2",
+          "default": "2",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coverage",
+        "paths"
+      ],
+      "title": "PathBehaviorReview",
+      "type": "object"
+    },
+    "ReferenceRange": {
+      "additionalProperties": false,
+      "properties": {
+        "end_column": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Column"
+        },
+        "end_line": {
+          "minimum": 1,
+          "title": "End Line",
+          "type": "integer"
+        },
+        "start_column": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Column"
+        },
+        "start_line": {
+          "minimum": 1,
+          "title": "Start Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start_line",
+        "end_line"
+      ],
+      "title": "ReferenceRange",
+      "type": "object"
+    },
+    "SectionStatus": {
+      "enum": [
+        "analyzed",
+        "insufficient_context",
+        "unsupported"
+      ],
+      "title": "SectionStatus",
+      "type": "string"
+    },
+    "SectionStatuses": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_tests": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "behavior_intent": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "cost_risk": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "flow_impact": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "verification": {
+          "$ref": "#/$defs/CapabilityStatus"
+        }
+      },
+      "required": [
+        "behavior_intent",
+        "flow_impact",
+        "cost_risk",
+        "acceptance_tests",
+        "verification"
+      ],
+      "title": "SectionStatuses",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "VerificationSuggestion": {
+      "additionalProperties": false,
+      "properties": {
+        "conditions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Conditions",
+          "type": "array"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "existing_test_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Existing Test Evidence Ids",
+          "type": "array"
+        },
+        "questions_for_user": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Questions For User",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "scenario": {
+          "minLength": 1,
+          "title": "Scenario",
+          "type": "string"
+        },
+        "suggested_assertions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Assertions",
+          "type": "array"
+        },
+        "suggestion_id": {
+          "title": "Suggestion Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "suggestion_id",
+        "scenario",
+        "rationale",
+        "evidence_ids"
+      ],
+      "title": "VerificationSuggestion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_status": {
+      "$ref": "#/$defs/AnalysisStatus"
+    },
+    "analyzer_version": {
+      "minLength": 1,
+      "title": "Analyzer Version",
+      "type": "string"
+    },
+    "behavior_review": {
+      "$ref": "#/$defs/PathBehaviorReview"
+    },
+    "estimates": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ImpactEstimate"
+      },
+      "title": "Estimates",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/EvidenceRef"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "findings": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Limitation"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "rule_version": {
+      "minLength": 1,
+      "title": "Rule Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.3.0",
+      "default": "0.3.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/AnalysisScope"
+    },
+    "section_status": {
+      "$ref": "#/$defs/SectionStatuses"
+    },
+    "semantic_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Semantic Version"
+    },
+    "snapshot_id": {
+      "minLength": 1,
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "suggestions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/VerificationSuggestion"
+      },
+      "title": "Suggestions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "snapshot_id",
+    "analysis_status",
+    "section_status",
+    "scope",
+    "analyzer_version",
+    "rule_version",
+    "evidence",
+    "behavior_review"
+  ],
+  "title": "PathAnalysisResponse",
+  "type": "object"
+}
