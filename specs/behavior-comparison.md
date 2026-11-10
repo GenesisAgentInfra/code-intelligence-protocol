@@ -25,3 +25,30 @@ Some constraints (reference existence, side and kind, unique change IDs, finding
 The concise and detailed Markdown reports are deterministic presentations of this same object. Neither renderer generates a second model answer. Internal AST/behavior-unit formats are intentionally separate from this public report contract.
 
 The synthetic example describes an asynchronous notification added between submitting a report and returning its result. Its scope is partial because the caller and notification implementation are absent. It demonstrates the format, not measured analyzer accuracy.
+
+
+## Report v0.3.0: semantic execution paths
+
+Report v0.3.0 retains all original report fields and comparisons, sets
+`behavior_review.version` to `2`, and requires `paths` (0–6 entries). v0.1.0 and
+v0.2.0 are unchanged. Consumers should dispatch on `schema_version`.
+
+Each path has a unique `path_id`, a single `side` (`base` or `head`), scenario,
+condition, steps (1–12), links (0–16), optional outcome and limitations. A step has
+an ID, kind, description, selected code evidence and an optional `path#symbol`
+location. Links reference existing step IDs and include a relation, optional
+condition, evidence, `support` and limitations. Step IDs are unique within a path.
+Every step/link cites code of that path's revision. A symbol's path must match
+its code evidence. These constraints need semantic validation beyond JSON Schema.
+
+`support=semantic_inference` means a connection inferred from supplied code, not
+a resolved static edge or observed execution. `support=unknown` requires an
+explicit missing-link limitation. An unknown entry is `entry_step_id=null` with
+a limitation; an unknown outcome remains `null`. No complete entry or successful
+return is invented to connect fragments. Registration and method names alone do
+not prove runtime selection. Static graphs remain separate.
+
+Paths explain the same analysis and do not replace findings, changes, cost,
+verification or coverage. Empty paths do not imply the application has no flows.
+The synthetic [example](../examples/v0.3.0/execution-paths.json) illustrates this
+format without customer source or runtime measurements.
