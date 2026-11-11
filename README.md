@@ -1,6 +1,6 @@
 # Code Intelligence Protocol
 
-Public data formats for the standalone Genesis Code Intelligence product. The source Pydantic models and deterministic schema exporter live in the public `GenesisAgentInfra/genesis-cli` repository; generated JSON Schema files in this repository must not be edited by hand.
+Public data formats for the standalone Genesis Code Intelligence product. The source Pydantic models and deterministic schema exporter live in the public `GenesisAgentInfra/genesis` repository; generated JSON Schema files in this repository must not be edited by hand.
 
 ## Contents
 
@@ -17,7 +17,7 @@ The four reports demonstrate a complete result, unresolved dynamic call, missing
 
 The open-source CLI implements local extraction and API delivery; the hosted semantic service is maintained separately. CLI-to-service request internals are not a stable public report contract. Customer source excerpts, API keys and usage records are confidential and do not belong in this repository.
 
-Start with [genesis-cli](https://github.com/GenesisAgentInfra/genesis-cli) for installation and usage. This repository documents data formats.
+Start with [genesis](https://github.com/GenesisAgentInfra/genesis) for installation and usage. This repository documents data formats.
 
 The JSON Schema format is Draft 2020-12. Report schema, private request protocol, and flow-file schema have separate versions. Report completeness describes only declared analysis coverage; it does not mean a test passed or a change is approved.
 
